@@ -65,20 +65,24 @@ public class JpaMain {
 //            System.out.println("findMember.name = " + findMember.getName());
 
             // 영속 엔티티 동일성 보장
-            Member findMember1 = em.find(Member.class, 100L);
-            Member findMember2 = em.find(Member.class, 100L);
-            System.out.println("result = " + (findMember1 == findMember2)); // true
+//            Member findMember1 = em.find(Member.class, 100L);
+//            Member findMember2 = em.find(Member.class, 100L);
+//            System.out.println("result = " + (findMember1 == findMember2)); // true
+//
+//            // 쓰기 지연
+//            Member member1 = new Member(150L, "A");
+//            Member member2 = new Member(160L, "B");
+//
+//            em.persist(member1);
+//            em.persist(member2);
+//
+//            System.out.println("===========================");
 
-            // 쓰기 지연
-            Member member1 = new Member(150L, "A");
-            Member member2 = new Member(160L, "B");
+            // 엔티티 수정
+            Member member = em.find(Member.class, 150L);
+            member.setName("zzzzzz"); // 바로 적용되어 persist를 할 필요가가 없다.
 
-            em.persist(member1);
-            em.persist(member2);
-
-            System.out.println("===========================");
-
-            tx.commit();
+           tx.commit();
         } catch (Exception e) {
             tx.rollback();
         } finally {
