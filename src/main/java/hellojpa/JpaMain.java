@@ -79,8 +79,16 @@ public class JpaMain {
 //            System.out.println("===========================");
 
             // 엔티티 수정
-            Member member = em.find(Member.class, 150L);
-            member.setName("zzzzzz"); // 바로 적용되어 persist를 할 필요가가 없다.
+//            Member member = em.find(Member.class, 150L);
+//            member.setName("zzzzzz"); // 바로 적용되어 persist를 할 필요가가 없다.
+
+            // flush - 영속성 컨텍스트의 변경내용을 DB에 동기화, 영속성 컨텍스트를 비우지 않음
+            Member member = new Member(200L, "member200");
+            em.persist(member);
+
+            em.flush();
+            System.out.println("================");
+
 
            tx.commit();
         } catch (Exception e) {
