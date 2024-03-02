@@ -105,8 +105,10 @@ public class JpaMain {
             Member member = new Member();
             member.setUsername("C");
 
-            em.persist(member);
-
+            System.out.println("==============");
+            em.persist(member); // GenerationType.IDENTITY 는 여기서 insert
+            System.out.println("member.id = " + member.getId()); // 내부적으로 insert하는 시점에 id값을 알 수 있어서 select문은 안나온다.
+            System.out.println("==============");
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
