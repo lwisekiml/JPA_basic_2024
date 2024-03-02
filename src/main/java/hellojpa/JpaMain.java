@@ -102,13 +102,27 @@ public class JpaMain {
 //
 //            System.out.println("=========");
 
-            Member member = new Member();
-            member.setUsername("C");
+            Member member1 = new Member();
+            member1.setUsername("A");
+
+            Member member2 = new Member();
+            member2.setUsername("B");
+
+            Member member3 = new Member();
+            member3.setUsername("C");
 
             System.out.println("==============");
-            em.persist(member); // GenerationType.IDENTITY 는 여기서 insert
-            System.out.println("member.id = " + member.getId()); // 내부적으로 insert하는 시점에 id값을 알 수 있어서 select문은 안나온다.
+
+//            em.persist(member1);
+//            em.persist(member2);
+//            em.persist(member3);
+
+            System.out.println("member1.id = " + member1.getId()); // 내부적으로 insert하는 시점에 id값을 알 수 있어서 select문은 안나온다.
+            System.out.println("member2.id = " + member2.getId()); // 내부적으로 insert하는 시점에 id값을 알 수 있어서 select문은 안나온다.
+            System.out.println("member3.id = " + member3.getId()); // 내부적으로 insert하는 시점에 id값을 알 수 있어서 select문은 안나온다.
+
             System.out.println("==============");
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
