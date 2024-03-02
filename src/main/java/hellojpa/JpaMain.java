@@ -113,9 +113,10 @@ public class JpaMain {
 
             System.out.println("==============");
 
-//            em.persist(member1);
-//            em.persist(member2);
-//            em.persist(member3);
+
+            em.persist(member1);
+            em.persist(member2);
+            em.persist(member3);
 
             System.out.println("member1.id = " + member1.getId()); // 내부적으로 insert하는 시점에 id값을 알 수 있어서 select문은 안나온다.
             System.out.println("member2.id = " + member2.getId()); // 내부적으로 insert하는 시점에 id값을 알 수 있어서 select문은 안나온다.
