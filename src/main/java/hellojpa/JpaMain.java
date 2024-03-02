@@ -69,6 +69,15 @@ public class JpaMain {
             Member findMember2 = em.find(Member.class, 100L);
             System.out.println("result = " + (findMember1 == findMember2)); // true
 
+            // 쓰기 지연
+            Member member1 = new Member(150L, "A");
+            Member member2 = new Member(160L, "B");
+
+            em.persist(member1);
+            em.persist(member2);
+
+            System.out.println("===========================");
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
