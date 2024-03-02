@@ -48,21 +48,26 @@ public class JpaMain {
 //        emf.close();
 
         try {
-            // 비영속
-            Member member = new Member();
-            member.setId(100L);
-            member.setName("HelloJPA");
+//            // 비영속
+//            Member member = new Member();
+//            member.setId(100L);
+//            member.setName("HelloJPA");
+//
+//            // 영속
+//            System.out.println("===BEFORE ===");
+//            em.persist(member);
+//            System.out.println("=== AFTER ===");
+//
+//            Member findMember = em.find(Member.class, 100L);
+//
+//            // 1차 캐시에 있는 데이터 조회
+//            System.out.println("findMember.id = " + findMember.getId());
+//            System.out.println("findMember.name = " + findMember.getName());
 
-            // 영속
-            System.out.println("=== BEFORE ===");
-            em.persist(member);
-            System.out.println("=== AFTER ===");
-
-            Member findMember = em.find(Member.class, 100L);
-
-            // 1차 캐시에 있는 데이터 조회
-            System.out.println("findMember.id = " + findMember.getId());
-            System.out.println("findMember.name = " + findMember.getName());
+            // 영속 엔티티 동일성 보장
+            Member findMember1 = em.find(Member.class, 100L);
+            Member findMember2 = em.find(Member.class, 100L);
+            System.out.println("result = " + (findMember1 == findMember2)); // true
 
             tx.commit();
         } catch (Exception e) {
