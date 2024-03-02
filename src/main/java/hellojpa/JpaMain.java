@@ -58,6 +58,12 @@ public class JpaMain {
             em.persist(member);
             System.out.println("=== AFTER ===");
 
+            Member findMember = em.find(Member.class, 100L);
+
+            // 1차 캐시에 있는 데이터 조회
+            System.out.println("findMember.id = " + findMember.getId());
+            System.out.println("findMember.name = " + findMember.getName());
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
