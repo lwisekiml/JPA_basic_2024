@@ -6,38 +6,30 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-//@Table(name = "MBR")
-@Entity // (name = "Member")
-@Table(uniqueConstraints = )
+@Entity
 public class Member {
     @Id
-    private Long id;
+    private String id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String username;
-//    private int age2; // update, validate 테스트
-
-    private int age;
-
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
-
-    private LocalDate testLocalDate;
-    private LocalDateTime testLocalDateTime;
-
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;
-
-    @Lob
-    private String description;
-
-    @Transient
-    private int temp;
 
     public Member() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

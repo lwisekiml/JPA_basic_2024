@@ -102,6 +102,11 @@ public class JpaMain {
 //
 //            System.out.println("=========");
 
+            Member member = new Member();
+            member.setId("ID_A");
+            member.setUsername("C");
+
+            em.persist(member);
 
             tx.commit();
         } catch (Exception e) {
