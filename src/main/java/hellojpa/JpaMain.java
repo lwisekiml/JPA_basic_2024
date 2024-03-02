@@ -83,14 +83,27 @@ public class JpaMain {
 //            member.setName("zzzzzz"); // 바로 적용되어 persist를 할 필요가가 없다.
 
             // flush - 영속성 컨텍스트의 변경내용을 DB에 동기화, 영속성 컨텍스트를 비우지 않음
-            Member member = new Member(200L, "member200");
-            em.persist(member);
+//            Member member = new Member(200L, "member200");
+//            em.persist(member);
+//
+//            em.flush();
+//            System.out.println("================");
 
-            em.flush();
-            System.out.println("================");
+            // 준영속
+            Member member = em.find(Member.class, 150L);
+            member.setName("zzzzzz");
+
+            // 1. detach()
+//            em.detach(member); // 특정 엔티티만 준영속 상태로 전화
+            // 2. clear()
+            em.clear(); // 영속성 컨텍스트 완전히 초기화(아래서 다시 find하면 DB에서 조회한다.)
+            Member member1 = em.find(Member.class, 150L);
 
 
-           tx.commit();
+            System.out.println("=========");
+
+
+            tx.commit();
         } catch (Exception e) {
             tx.rollback();
         } finally {
