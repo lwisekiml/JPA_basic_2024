@@ -10,6 +10,7 @@ public class Member {
     @Id
     private Long id;
     private String name;
+//    private int age2; // update, validate 테스트
 
     public Member() {
     }

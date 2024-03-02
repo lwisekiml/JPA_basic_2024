@@ -16,7 +16,11 @@
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments"  value="true"/>
             <property name="hibernate.jdbc.batch_size" value="10"/> <!-- em.persist(member1); 몇 개를 한번에 보낼지 -->
-<!--            <property name="hibernate.hbm2ddl.auto" value="create" />-->  <!-- 매번 쿼리를 수행할 때마다 테이블 초기화 -->
+            <!-- 운영 장비에는 절대 create, create-drop, update 사용하면 안된다. -->
+<!--            <property name="hibernate.hbm2ddl.auto" value="create" />-->
+<!--            <property name="hibernate.hbm2ddl.auto" value="create-drop" />-->
+<!--            <property name="hibernate.hbm2ddl.auto" value="update" />-->
+<!--            <property name="hibernate.hbm2ddl.auto" value="validate" />-->
         </properties>
     </persistence-unit>
 
