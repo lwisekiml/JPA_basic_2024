@@ -90,17 +90,17 @@ public class JpaMain {
 //            System.out.println("================");
 
             // 준영속
-            Member member = em.find(Member.class, 150L);
-            member.setName("zzzzzz");
-
-            // 1. detach()
-//            em.detach(member); // 특정 엔티티만 준영속 상태로 전화
-            // 2. clear()
-            em.clear(); // 영속성 컨텍스트 완전히 초기화(아래서 다시 find하면 DB에서 조회한다.)
-            Member member1 = em.find(Member.class, 150L);
-
-
-            System.out.println("=========");
+//            Member member = em.find(Member.class, 150L);
+//            member.setName("zzzzzz");
+//
+//            // 1. detach()
+////            em.detach(member); // 특정 엔티티만 준영속 상태로 전화
+//            // 2. clear()
+//            em.clear(); // 영속성 컨텍스트 완전히 초기화(아래서 다시 find하면 DB에서 조회한다.)
+//            Member member1 = em.find(Member.class, 150L);
+//
+//
+//            System.out.println("=========");
 
 
             tx.commit();
