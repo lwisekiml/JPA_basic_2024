@@ -127,35 +127,17 @@ public class JpaMain {
 //            System.out.println("==============");
 
             // 저장
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
-
             Member member = new Member();
             member.setUsername("member1");
-
-            // member1을 teamA에 소속 시키고 싶다.
-            member.setTeam(team);
             em.persist(member);
 
-            // 영속성 컨텍스트 말고 DB에 있는 것을 가지고 오고 싶을 때
+            Team team = new Team();
+            team.setName("TeamA");
+            team.getMembers().add(member); // 역방향(주인이 아닌 방향)만 연관관계 설정하여 MEMBER의 TEAM_ID값은 null이 된다.
+            em.persist(team);
+
             em.flush();
             em.clear();
-
-            // 조회
-            Member findMember = em.find(Member.class, member.getId());
-            // find한 member가 어느 팀인지 알고 싶다...연관 관계라는게 없어 DB에 계속 물어봐야 한다.
-            // 테이블은 외개키로 조인을 사용해서 연관된 테이블을 찾을 수 있다.
-            // 객체는 참조를 사용해서 연관된 객체를 찾는다.
-//            Team findTeam = findMember.getTeam();
-//            System.out.println("findTeam = " + findTeam.getName());
-
-            List<Member> members = findMember.getTeam().getMembers(); // 양방향 연관관계(실제로는 단방향이 2개다.)
-
-            for (Member m : members) {
-                System.out.println("m = " + m.getUsername());
-            }
-
 
             tx.commit();
         } catch (Exception e) {
