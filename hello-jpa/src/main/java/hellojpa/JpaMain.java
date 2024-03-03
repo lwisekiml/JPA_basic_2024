@@ -124,6 +124,7 @@ public class JpaMain {
 //
 //            System.out.println("==============");
 
+            // 저장
             Team team = new Team();
             team.setName("TeamA");
             em.persist(team);
@@ -132,17 +133,20 @@ public class JpaMain {
             member.setUsername("member1");
 
             // member1을 teamA에 소속 시키고 싶다.
-            member.setTeamId(team.getId());
+            member.setTeam(team);
             em.persist(member);
+
+            // 영속성 컨텍스트 말고 DB에 있는 것을 가지고 오고 싶을 때
+            em.flush();
+            em.clear();
 
             // 조회
             Member findMember = em.find(Member.class, member.getId());
             // find한 member가 어느 팀인지 알고 싶다...연관 관계라는게 없어 DB에 계속 물어봐야 한다.
             // 테이블은 외개키로 조인을 사용해서 연관된 테이블을 찾을 수 있다.
             // 객체는 참조를 사용해서 연관된 객체를 찾는다.
-            Long findTeamId = findMember.getTeamId();
-            Team findTeam = em.find(Team.class, findTeamId);
-
+            Team findTeam = findMember.getTeam();
+            System.out.println("findTeam = " + findTeam.getName());
 
 
             tx.commit();

@@ -11,8 +11,12 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
-    @Column(name = "TEAM_ID")
-    private Long teamId;
+//    @Column(name = "TEAM_ID")
+//    private Long teamId;
+
+    @ManyToOne//(fetch = FetchType.LAZY) // 없으면 한번에 join해서 가져온다.
+    @JoinColumn(name = "TEAM_ID") // join해야 되는 컬럼이 뭐냐
+    private Team team;
 
     public Long getId() {
         return id;
@@ -30,11 +34,11 @@ public class Member {
         this.username = username;
     }
 
-    public Long getTeamId() {
-        return teamId;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeamId(Long teamId) {
-        this.teamId = teamId;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
