@@ -102,27 +102,48 @@ public class JpaMain {
 //
 //            System.out.println("=========");
 
-            Member member1 = new Member();
-            member1.setUsername("A");
+//            Member member1 = new Member();
+//            member1.setUsername("A");
+//
+//            Member member2 = new Member();
+//            member2.setUsername("B");
+//
+//            Member member3 = new Member();
+//            member3.setUsername("C");
+//
+//            System.out.println("==============");
+//
+//
+//            em.persist(member1);
+//            em.persist(member2);
+//            em.persist(member3);
+//
+//            System.out.println("member1.id = " + member1.getId()); // 내부적으로 insert하는 시점에 id값을 알 수 있어서 select문은 안나온다.
+//            System.out.println("member2.id = " + member2.getId()); // 내부적으로 insert하는 시점에 id값을 알 수 있어서 select문은 안나온다.
+//            System.out.println("member3.id = " + member3.getId()); // 내부적으로 insert하는 시점에 id값을 알 수 있어서 select문은 안나온다.
+//
+//            System.out.println("==============");
 
-            Member member2 = new Member();
-            member2.setUsername("B");
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
-            Member member3 = new Member();
-            member3.setUsername("C");
+            Member member = new Member();
+            member.setUsername("member1");
 
-            System.out.println("==============");
+            // member1을 teamA에 소속 시키고 싶다.
+            member.setTeamId(team.getId());
+            em.persist(member);
+
+            // 조회
+            Member findMember = em.find(Member.class, member.getId());
+            // find한 member가 어느 팀인지 알고 싶다...연관 관계라는게 없어 DB에 계속 물어봐야 한다.
+            // 테이블은 외개키로 조인을 사용해서 연관된 테이블을 찾을 수 있다.
+            // 객체는 참조를 사용해서 연관된 객체를 찾는다.
+            Long findTeamId = findMember.getTeamId();
+            Team findTeam = em.find(Team.class, findTeamId);
 
 
-            em.persist(member1);
-            em.persist(member2);
-            em.persist(member3);
-
-            System.out.println("member1.id = " + member1.getId()); // 내부적으로 insert하는 시점에 id값을 알 수 있어서 select문은 안나온다.
-            System.out.println("member2.id = " + member2.getId()); // 내부적으로 insert하는 시점에 id값을 알 수 있어서 select문은 안나온다.
-            System.out.println("member3.id = " + member3.getId()); // 내부적으로 insert하는 시점에 id값을 알 수 있어서 select문은 안나온다.
-
-            System.out.println("==============");
 
             tx.commit();
         } catch (Exception e) {
