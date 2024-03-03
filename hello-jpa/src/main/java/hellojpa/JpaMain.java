@@ -127,14 +127,14 @@ public class JpaMain {
 //            System.out.println("==============");
 
             // 저장
-            Member member = new Member();
-            member.setUsername("member1");
-            em.persist(member);
-
             Team team = new Team();
             team.setName("TeamA");
-            team.getMembers().add(member); // 역방향(주인이 아닌 방향)만 연관관계 설정하여 MEMBER의 TEAM_ID값은 null이 된다.
             em.persist(team);
+
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setTeam(team);
+            em.persist(member);
 
             em.flush();
             em.clear();
