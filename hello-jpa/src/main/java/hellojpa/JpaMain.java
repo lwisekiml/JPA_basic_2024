@@ -127,17 +127,35 @@ public class JpaMain {
 //            System.out.println("==============");
 
             // 저장
+            // 저장
             Team team = new Team();
             team.setName("TeamA");
             em.persist(team);
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team);
+            member.setTeam(team); // 이것만 하는 것이 아닌 아래와 같이 team.getMembers().add(member); 도 사용
             em.persist(member);
 
+            /*
+            아래 1번이나 2번을 주석을 하면 for문에서 출력되는 것이 없다.
+            1번이나 2번 하나만 사용해도 되지만 보통 flush(), clear()로 DB에 넣기보단
+            commit()을 사용하니 1번을 사용
+             */
+            // 1
+            team.getMembers().add(member); // (이것과 같이) 순수 객체 상태를 고려해서 항상 양쪽에 값을 설정하자
+            // 2 : 아래 findTeam 부분에서 DB에서 다시 조회하게 되므로 JPA가 외래키가 있다는 것을 알아서 for문에 값이 출력이 된다.
             em.flush();
             em.clear();
+
+            Team findTeam = em.find(Team.class, team.getId()); // 1차 캐시
+            List<Member> members = findTeam.getMembers();
+
+            System.out.println("===================");
+            for (Member m : members) {
+                System.out.println("m = " + m.getUsername()); // 출력되는 것이 없다.
+            }
+            System.out.println("===================");
 
             tx.commit();
         } catch (Exception e) {
