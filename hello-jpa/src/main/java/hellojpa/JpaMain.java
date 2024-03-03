@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
+import java.util.List;
+
 public class JpaMain {
 
     public static void main(String[] args) {
@@ -145,8 +147,14 @@ public class JpaMain {
             // find한 member가 어느 팀인지 알고 싶다...연관 관계라는게 없어 DB에 계속 물어봐야 한다.
             // 테이블은 외개키로 조인을 사용해서 연관된 테이블을 찾을 수 있다.
             // 객체는 참조를 사용해서 연관된 객체를 찾는다.
-            Team findTeam = findMember.getTeam();
-            System.out.println("findTeam = " + findTeam.getName());
+//            Team findTeam = findMember.getTeam();
+//            System.out.println("findTeam = " + findTeam.getName());
+
+            List<Member> members = findMember.getTeam().getMembers(); // 양방향 연관관계(실제로는 단방향이 2개다.)
+
+            for (Member m : members) {
+                System.out.println("m = " + m.getUsername());
+            }
 
 
             tx.commit();
