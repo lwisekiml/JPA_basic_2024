@@ -134,7 +134,7 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team); // 이것만 하는 것이 아닌 아래와 같이 team.getMembers().add(member); 도 사용
+            member.changeTeam(team); // 이것만 하는 것이 아닌 아래와 같이 team.getMembers().add(member); 도 사용
             em.persist(member);
 
             /*
@@ -143,7 +143,7 @@ public class JpaMain {
             commit()을 사용하니 1번을 사용
              */
             // 1
-            team.getMembers().add(member); // (이것과 같이) 순수 객체 상태를 고려해서 항상 양쪽에 값을 설정하자
+//            team.getMembers().add(member); // (이것과 같이) 순수 객체 상태를 고려해서 항상 양쪽에 값을 설정하자
             // 2 : 아래 findTeam 부분에서 DB에서 다시 조회하게 되므로 JPA가 외래키가 있다는 것을 알아서 for문에 값이 출력이 된다.
             em.flush();
             em.clear();

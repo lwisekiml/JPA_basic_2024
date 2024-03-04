@@ -38,7 +38,8 @@ public class Member {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void changeTeam(Team team) { // 연관 관계 편의 메소드를 사용해도 된다.
         this.team = team;
+        team.getMembers().add(this);
     }
 }
