@@ -154,9 +154,10 @@ public class JpaMain {
             List<Member> members = findTeam.getMembers();
 
             System.out.println("===================");
-            for (Member m : members) {
-                System.out.println("m = " + m.getUsername()); // 출력되는 것이 없다.
-            }
+            System.out.println("members = " + findTeam); // StackOverflowError
+//            for (Member m : members) {
+//                System.out.println("m = " + m.getUsername()); // 출력되는 것이 없다.
+//            }
             System.out.println("===================");
 
             tx.commit();
