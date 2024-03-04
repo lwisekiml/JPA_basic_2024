@@ -2,6 +2,9 @@ package hellojpa;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Member {
 
@@ -11,10 +14,6 @@ public class Member {
 
     @Column(name = "USERNAME")
     private String username;
-
-    @ManyToOne//(fetch = FetchType.LAZY) // 없으면 한번에 join해서 가져온다.
-    @JoinColumn(name = "TEAM_ID") // join해야 되는 컬럼이 뭐냐
-    private Team team;
 
     public Long getId() {
         return id;
@@ -32,20 +31,4 @@ public class Member {
         this.username = username;
     }
 
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    @Override
-    public String toString() {
-        return "Member{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", team=" + team +
-                '}';
-    }
 }
