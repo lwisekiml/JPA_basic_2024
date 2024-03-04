@@ -134,8 +134,10 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("member1");
-            member.changeTeam(team); // 이것만 하는 것이 아닌 아래와 같이 team.getMembers().add(member); 도 사용
+//            member.changeTeam(team); // 이것만 하는 것이 아닌 아래와 같이 team.getMembers().add(member); 도 사용
             em.persist(member);
+
+            team.addMember(member);
 
             /*
             아래 1번이나 2번을 주석을 하면 for문에서 출력되는 것이 없다.
