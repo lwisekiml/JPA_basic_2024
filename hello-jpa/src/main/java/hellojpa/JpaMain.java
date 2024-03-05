@@ -28,8 +28,11 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            Movie findMovie = em.find(Movie.class, movie.getId()); // i
-            System.out.println("findMovie = " + findMovie);
+            // 이 경우 union을 사용해서 복잡한 쿼리가 나가게 된다.
+            // item id만 아는 경우, 테이블 3개를 다 select 해봐야 알 수 있다.
+            // 비효율적으로 동작
+            Item item = em.find(Movie.class, movie.getId());
+            System.out.println("item = " + item);
 
             tx.commit();
         } catch (Exception e) {
