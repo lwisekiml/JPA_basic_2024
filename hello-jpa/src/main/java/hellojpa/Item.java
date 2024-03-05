@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn // DTYPE 설정
 public class Item {
 
     @Id @GeneratedValue
