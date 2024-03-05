@@ -3,8 +3,8 @@ package hellojpa;
 import jakarta.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn // DTYPE 설정
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn // DTYPE 설정
 public class Item {
 
     @Id @GeneratedValue
