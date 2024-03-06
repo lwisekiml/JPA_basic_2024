@@ -31,11 +31,11 @@ public class JpaMain {
             em.clear();
 
             Member m1 = em.find(Member.class, member1.getId()); // Member
-            Member m2 = em.find(Member.class, member2.getId()); // Member
+            Member m2 = em.getReference(Member.class, member2.getId()); // Proxy
 
             System.out.println("m1 = " + m1.getClass()); // m1 = class hellojpa.Member
-            System.out.println("m2 = " + m2.getClass()); // m2 = class hellojpa.Member
-            System.out.println("m1 == m2 : " + (m1.getClass() == m2.getClass())); // true
+            System.out.println("m2 = " + m2.getClass()); // m2 = class hellojpa.Member$HibernateProxy$bHhvfrfj
+            System.out.println("m1 == m2 : " + (m1.getClass() == m2.getClass())); // false
 
             tx.commit();
         } catch (Exception e) {
