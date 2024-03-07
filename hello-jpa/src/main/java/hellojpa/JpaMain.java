@@ -23,32 +23,24 @@ public class JpaMain {
             member1.setUsername("member1");
             em.persist(member1);
 
-            Member member2 = new Member();
-            member2.setUsername("member2");
-            em.persist(member2);
-
             em.flush();
             em.clear();
 
-            System.out.println("=================1=================");
-            Member m1 = em.find(Member.class, member1.getId());
-            System.out.println("=================2=================");
-            Member m2 = em.find(Member.class, member2.getId());
-            System.out.println("=================3=================");
-            // 2번때문에 이미 영속성 컨텍스트에 있기 때문에 m2와 같은 member가 된다.
-            Member m3 = em.getReference(Member.class, member2.getId());
-            System.out.println("==================================");
-            // 2번을 getReference()로 하고 m3을 find()로 하면 m2, m3은 Proxy가 된다.
+            Member refMember = em.getReference(Member.class, member1.getId());
+            System.out.println("refMember.getClass() = " + refMember.getClass()); // Proxy
 
-            System.out.println("m1 = " + m1.getClass()); // m1 = class hellojpa.Member
-            System.out.println("m2 = " + m2.getClass()); // m2 = class hellojpa.Member
-            System.out.println("m3 = " + m3.getClass()); // m3 = class hellojpa.Member
-            System.out.println("m1 == m2 : " + (m1.getClass() == m2.getClass())); // true
-            System.out.println("m1 == m3 : " + (m1.getClass() == m3.getClass())); // true
+            em.detach(refMember); // 영속성 컨텍스트로 관리x
+//            em.close(); // 약간 다르게 나온다.
+//            em.clear();
+
+            // 프록시도 결국 영속성 컨텍스트 위에서 사용하는 객체인데 영속성 컨텍스트를 비워버리면 프록시 객체가 없어 초기화 요청을 할 수 없다.
+            // 영속성 컨텍스트에 도움을 받아서 실제 데이터를 불러와야 한다. 초기화 해야 한다.
+            refMember.getUsername(); // could not initialize proxy
 
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
+            e.printStackTrace();
         } finally {
             em.close();
         }
