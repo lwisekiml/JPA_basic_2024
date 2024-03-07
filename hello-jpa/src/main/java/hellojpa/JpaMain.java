@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import org.hibernate.Hibernate;
 
 import java.time.LocalDateTime;
 
@@ -27,15 +28,14 @@ public class JpaMain {
             em.clear();
 
             Member refMember = em.getReference(Member.class, member1.getId());
-            System.out.println("refMember.getClass() = " + refMember.getClass()); // Proxy
+            System.out.println("refMember.getClass() = " + refMember.getClass()); // Proxy 클래스 확인 방법
+            System.out.println("=======================");
+//            refMember.getUsername(); // JPA 표준에는 강제 초기화가 없어서, 이것 처럼 강제 호출해야 된다.
+            Hibernate.initialize(refMember); // Hibernate 프록시 강제 초기화
+            System.out.println("=======================");
+            System.out.println("isLoaded = " + emf.getPersistenceUnitUtil().isLoaded(refMember)); // 프록시 인스턴스의 초기화 여부 확인
 
-            em.detach(refMember); // 영속성 컨텍스트로 관리x
-//            em.close(); // 약간 다르게 나온다.
-//            em.clear();
 
-            // 프록시도 결국 영속성 컨텍스트 위에서 사용하는 객체인데 영속성 컨텍스트를 비워버리면 프록시 객체가 없어 초기화 요청을 할 수 없다.
-            // 영속성 컨텍스트에 도움을 받아서 실제 데이터를 불러와야 한다. 초기화 해야 한다.
-            refMember.getUsername(); // could not initialize proxy
 
             tx.commit();
         } catch (Exception e) {
