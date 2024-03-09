@@ -12,9 +12,9 @@ public class Member extends BaseEntity {
     @Column(name = "USERNAME")
     private String username;
 
-    @ManyToOne
-    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false) // insertable, updatable를 넣으면 읽기 전용이 된다.
-    private Team team;
+    @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩으로 하면 연관된 것을 Proxy로 가져온다.
+    @JoinColumn
+    private Team team; // Proxy로 가져온다.
 
     public Long getId() {
         return id;

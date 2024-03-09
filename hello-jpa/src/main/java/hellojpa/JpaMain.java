@@ -19,23 +19,27 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
 
             Member member1 = new Member();
             member1.setUsername("member1");
+            member1.setTeam(team);
             em.persist(member1);
 
             em.flush();
             em.clear();
 
-            Member refMember = em.getReference(Member.class, member1.getId());
-            System.out.println("refMember.getClass() = " + refMember.getClass()); // Proxy 클래스 확인 방법
-            System.out.println("=======================");
-//            refMember.getUsername(); // JPA 표준에는 강제 초기화가 없어서, 이것 처럼 강제 호출해야 된다.
-            Hibernate.initialize(refMember); // Hibernate 프록시 강제 초기화
-            System.out.println("=======================");
-            System.out.println("isLoaded = " + emf.getPersistenceUnitUtil().isLoaded(refMember)); // 프록시 인스턴스의 초기화 여부 확인
+            Member m = em.find(Member.class, member1.getId()); // DB select
 
+            System.out.println("m = " + m.getTeam().getClass()); // Proxy
 
+            System.out.println("==================");
+            m.getTeam(); // Proxy를 가져와서 쿼리가 안 나간다.
+            System.out.println("==================");
+            m.getTeam().getName(); // 실제 team을 사용하는 시점이여서 초기화(DB 조회)
+            System.out.println("==================");
 
             tx.commit();
         } catch (Exception e) {
