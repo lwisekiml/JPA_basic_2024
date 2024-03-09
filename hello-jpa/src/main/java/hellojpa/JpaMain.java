@@ -31,14 +31,12 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            Member m = em.find(Member.class, member1.getId()); // DB select
+            Member m = em.find(Member.class, member1.getId()); // DB에서 Team도 다 가져온다.
 
-            System.out.println("m = " + m.getTeam().getClass()); // Proxy
+            System.out.println("m = " + m.getTeam().getClass());
 
             System.out.println("==================");
-            m.getTeam(); // Proxy를 가져와서 쿼리가 안 나간다.
-            System.out.println("==================");
-            m.getTeam().getName(); // 실제 team을 사용하는 시점이여서 초기화(DB 조회)
+            System.out.println("teamName = " + m.getTeam().getName());
             System.out.println("==================");
 
             tx.commit();

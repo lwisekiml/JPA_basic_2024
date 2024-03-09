@@ -12,7 +12,7 @@ public class Member extends BaseEntity {
     @Column(name = "USERNAME")
     private String username;
 
-    @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩으로 하면 연관된 것을 Proxy로 가져온다.
+    @ManyToOne(fetch = FetchType.EAGER) // 즉시 로딩
     @JoinColumn
     private Team team; // Proxy로 가져온다.
 
