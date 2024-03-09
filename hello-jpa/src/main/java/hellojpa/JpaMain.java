@@ -17,33 +17,17 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Team team = new Team();
-            team.setName("teamA");
-            em.persist(team);
 
-            Team teamB = new Team();
-            teamB.setName("teamA");
-            em.persist(teamB);
+            Child child1 = new Child();
+            Child child2 = new Child();
 
-            Member member1 = new Member();
-            member1.setUsername("member1");
-            member1.setTeam(team);
-            em.persist(member1);
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
 
-            Member member2 = new Member();
-            member2.setUsername("member2");
-            member2.setTeam(teamB);
-            em.persist(member2);
-
-            em.flush();
-            em.clear();
-
-//            Member m = em.find(Member.class, member1.getId()); // DB에서 Team도 다 가져온다.
-
-            // FetchType.EAGER일 경우 Team을 select 하는 쿼리가 2개 나간다.
-            // FetchType.LAZY로 할 경우 Team은 Proxy로 되어 있어서 쿼리가 나가지 않는다.
-            List<Member> members = em.createQuery("select m from Member m", Member.class)
-                    .getResultList();
+            em.persist(parent);
+            em.persist(child1);
+            em.persist(child2);
 
             tx.commit();
         } catch (Exception e) {
