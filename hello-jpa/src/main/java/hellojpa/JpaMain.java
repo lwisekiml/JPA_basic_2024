@@ -26,12 +26,14 @@ public class JpaMain {
             parent.addChild(child2);
 
             em.persist(parent);
+            em.persist(child1);
+            em.persist(child2);
 
             em.flush();
             em.clear();
 
             Parent findParent = em.find(Parent.class, parent.getId());
-            findParent.getChildList().remove(0);
+            em.remove(findParent); // parent가 지원지고 child 또한 지워진다.
 
             tx.commit();
         } catch (Exception e) {
