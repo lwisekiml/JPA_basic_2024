@@ -1,10 +1,9 @@
 package hellojpa;
 
-import jakarta.persistence.*;
-import org.hibernate.Hibernate;
-
-import java.time.LocalDateTime;
-import java.util.List;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
 
 public class JpaMain {
 
@@ -18,6 +17,12 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Member member = new Member();
+            member.setUsername("hello");
+            member.setHomeAddress(new Address("city", "street", "zipcode"));
+            member.setWorkPeriod(new Period());
+
+            em.persist(member);
 
             tx.commit();
         } catch (Exception e) {
