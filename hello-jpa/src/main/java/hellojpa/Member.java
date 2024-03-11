@@ -16,7 +16,7 @@ public class Member {
 
     // 기간 Period
     @Embedded // 값 타입을 사용하는 곳에 표시
-    private Period workPeriod;
+    private Period workPeriod = null; // Period 값은 모두 null 표시됨
 
     // 주소
     @Embedded
