@@ -1,5 +1,6 @@
 package hellojpa;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable // 값 타입을 정의하는 곳에 표시
@@ -7,7 +8,10 @@ public class Address {
 
     private String city;
     private String street;
+//    @Column(name = "ZIPCODE") // 가능
     private String zipcode;
+
+//    private Member member; // 가능
 
     public Address() {
     }
