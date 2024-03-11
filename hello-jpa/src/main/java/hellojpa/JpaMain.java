@@ -9,38 +9,23 @@ import java.util.List;
 public class JpaMain {
 
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
-        EntityManager em = emf.createEntityManager();
+        int a = 10;
+        int b = a;
+        a = 20; // b 값은 변화x
+        System.out .println( "a = " + a); // 20
+        System.out .println( "b = " + b); // 10
 
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
+        /*
+        new Integer(n); 은 호출할 때마다 매번 새로운 객체를 생성
+        Integer.valueOf(n); 은 이미 생성한 객체가 있으면 그 객체를 재활용
+         */
+        Integer c = new Integer(10);
+        Integer d = c;
+        c = 20; // a = Integer.parseInt(20); 과 동일
 
-        try {
-
-            Child child1 = new Child();
-            Child child2 = new Child();
-
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
-
-            em.persist(parent);
-
-            em.flush();
-            em.clear();
-
-            Parent findParent = em.find(Parent.class, parent.getId());
-            em.remove(findParent); // parent가 지원지고 child 또한 지워진다.
-
-            tx.commit();
-        } catch (Exception e) {
-            tx.rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-        emf.close();
+        System.out.println("c = " + c);
+        System.out.println("d = " + d);
     }
 
     private static void printMemberAndTeam(Member member) {
