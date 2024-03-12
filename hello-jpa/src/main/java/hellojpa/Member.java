@@ -21,12 +21,14 @@ public class Member {
     @Embedded
     private Address homeAddress;
 
+    // 값 타입 컬렉션에 변경 사항이 발생하면, 주인 엔티티와 연관된 모든 데이터를 삭제하고, 값 타입 컬렉션에 있는 현재 값을 모두 다시 저장
     @ElementCollection // 값 타입 컬렉션
     @CollectionTable(name = "FAVORITE_FOOD", joinColumns =
         @JoinColumn(name = "MEMBER_ID"))
     @Column(name = "FOOD_NAME")
     private Set<String> favoriteFoods = new HashSet<>();
 
+    // 값 타입 컬렉션에 변경 사항이 발생하면, 주인 엔티티와 연관된 모든 데이터를 삭제하고, 값 타입 컬렉션에 있는 현재 값을 모두 다시 저장
     @ElementCollection // 값 타입 컬렉션
     @CollectionTable(name = "ADDRESS", joinColumns =
         @JoinColumn(name = "MEMBER_ID"))
