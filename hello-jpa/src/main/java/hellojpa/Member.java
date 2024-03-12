@@ -16,23 +16,11 @@ public class Member {
 
     // 기간 Period
     @Embedded // 값 타입을 사용하는 곳에 표시
-    private Period workPeriod = null; // Period 값은 모두 null 표시됨
+    private Period workPeriod;
 
     // 주소
     @Embedded
     private Address homeAddress;
-
-    // @AttributeOverride를 안쓰면 에러
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "city",
-                    column = @Column(name = "WORK_CITY")),
-            @AttributeOverride(name = "street",
-                    column = @Column(name = "WORK_STREET")),
-            @AttributeOverride(name = "zipcode",
-                    column = @Column(name = "WORK_ZIPCODE"))
-    })
-    private Address workAddress;
 
     public Long getId() {
         return id;
