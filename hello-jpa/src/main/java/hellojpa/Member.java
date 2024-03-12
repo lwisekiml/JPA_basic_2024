@@ -3,6 +3,10 @@ package hellojpa;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Member {
@@ -14,43 +18,18 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
-    // 기간 Period
-    @Embedded // 값 타입을 사용하는 곳에 표시
-    private Period workPeriod;
-
-    // 주소
     @Embedded
     private Address homeAddress;
 
-    public Long getId() {
-        return id;
-    }
+    @ElementCollection // 값 타입 컬렉션
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns =
+        @JoinColumn(name = "MEMBER_ID"))
+    @Column(name = "FOOD_NAME")
+    private Set<String> favoriteFoods = new HashSet<>();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ElementCollection // 값 타입 컬렉션
+    @CollectionTable(name = "ADDRESS", joinColumns =
+        @JoinColumn(name = "MEMBER_ID"))
+    private List<Address> addressHistory = new ArrayList<>();
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Period getWorkPeriod() {
-        return workPeriod;
-    }
-
-    public void setWorkPeriod(Period workPeriod) {
-        this.workPeriod = workPeriod;
-    }
-
-    public Address getHomeAddress() {
-        return homeAddress;
-    }
-
-    public void setHomeAddress(Address homeAddress) {
-        this.homeAddress = homeAddress;
-    }
 }
