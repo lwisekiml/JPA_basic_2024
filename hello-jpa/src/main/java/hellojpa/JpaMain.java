@@ -24,8 +24,23 @@ public class JpaMain {
 
         try {
 
-            em.createNativeQuery("select MEMBER_ID, city, street, zipcode, USERNAME from MEMBER")
+            Member member = new Member();
+            member.setUsername("member1");
+            em.persist(member);
+
+            // flush -> commit, query
+
+            em.flush();
+
+            // 아래는 JPA가 아니라 flush가 안되므로 위와 같이 em.flush()를 사용 해주어야 한다.
+            // dbconn.executeQuery("select * from member");
+
+            List<Member> resultList = em.createNativeQuery("select MEMBER_ID, city, street, zipcode, USERNAME from MEMBER")
                     .getResultList();
+
+            for (Member member1 : resultList) {
+                System.out.println("member1 = " + member1);
+            }
 
             tx.commit();
         } catch (Exception e) {
