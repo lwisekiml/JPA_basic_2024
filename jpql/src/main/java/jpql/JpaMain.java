@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
+import java.util.List;
+
 public class JpaMain {
 
     public static void main(String[] args) {
@@ -21,15 +23,15 @@ public class JpaMain {
             member.setAge(10);
             em.persist(member);
 
-//            TypedQuery<Member> query = em.createQuery("select m from  Member m where m.username = :username", Member.class);
-//            query.setParameter("username", "member1");
-//            Member singleResult = query.getSingleResult();
-//            System.out.println("singleResult = " + singleResult.getUsername());
+            em.flush();
+            em.clear();
 
-            Member result = em.createQuery("select m from  Member m where m.username = :username", Member.class)
-                    .setParameter("username", "member1")
-                    .getSingleResult();
-            System.out.println("result = " + result.getUsername());
+            // 영속성으로 관리됨
+            List<Member> result = em.createQuery("select m from  Member m", Member.class)
+                    .getResultList();
+
+            Member findMember = result.get(0);
+            findMember.setAge(20); // 20으로 수정됨
 
             tx.commit();
         } catch (Exception e) {
