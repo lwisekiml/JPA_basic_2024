@@ -26,12 +26,12 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            // 영속성으로 관리됨
-            List<Member> result = em.createQuery("select m from  Member m", Member.class)
+            // 아래와 같이 하면 join을 하게되지만 아래와 같이 코드를 작성할 경우 join을 할 것이라는 것이 한눈에 안보인다.
+//            List<Team> result = em.createQuery("select m.team from  Member m", Team.class)
+//                    .getResultList();
+            // 그래서 아래와 같이 작성하여 조인이 들어가는 것을 나타내는 것이 코드를 보기에도 좋다.
+            List<Team> result = em.createQuery("select t from Member m join m.team t", Team.class)
                     .getResultList();
-
-            Member findMember = result.get(0);
-            findMember.setAge(20); // 20으로 수정됨
 
             tx.commit();
         } catch (Exception e) {
