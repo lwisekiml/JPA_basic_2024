@@ -18,38 +18,26 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("member1");
-            member.setAge(10);
-            em.persist(member);
+            for (int i = 0; i < 100; i++) {
+                Member member = new Member();
+                member.setUsername("member" + i);
+                member.setAge(i);
+                em.persist(member);
+            }
 
             em.flush();
             em.clear();
 
-            // 1. Query 타입으로 조회
-//            List resultList = em.createQuery("select m.username, m.age from Member m")
-//                    .getResultList();
-//
-//            Object o = resultList.get(0);
-//            Object[] result = (Object[]) o;
-//            System.out.println("username = " + result[0]);
-//            System.out.println("age = " + result[1]);
-
-            // 2. Object[] 타입으로 조회
-//            List<Object[]> resultList = em.createQuery("select m.username, m.age from Member m")
-//                    .getResultList();
-//
-//            Object[] result = resultList.get(0);
-//            System.out.println("username = " + result[0]);
-//            System.out.println("age = " + result[1]);
-
-            // 3. new 명령어로 조회
-            List<MemberDTO> result = em.createQuery("select new jpql.MemberDTO(m.username, m.age) from Member m", MemberDTO.class)
+            // 나이 많은 순 정렬
+            List<Member> result = em.createQuery("select m from Member m order by m.age desc ", Member.class)
+                    .setFirstResult(1)
+                    .setMaxResults(10)
                     .getResultList();
 
-            MemberDTO memberDTO = result.get(0);
-            System.out.println("memberDTO = " + memberDTO.getUsername());
-            System.out.println("memberDTO = " + memberDTO.getAge());
+            System.out.println("result.size = " + result.size());
+            for (Member member1 : result) {
+                System.out.println("member1 = " + member1);
+            }
 
             tx.commit();
         } catch (Exception e) {
