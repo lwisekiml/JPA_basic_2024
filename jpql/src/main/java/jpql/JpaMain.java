@@ -26,8 +26,30 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            em.createQuery("select distinct m.username, m.age from Member m")
+            // 1. Query 타입으로 조회
+//            List resultList = em.createQuery("select m.username, m.age from Member m")
+//                    .getResultList();
+//
+//            Object o = resultList.get(0);
+//            Object[] result = (Object[]) o;
+//            System.out.println("username = " + result[0]);
+//            System.out.println("age = " + result[1]);
+
+            // 2. Object[] 타입으로 조회
+//            List<Object[]> resultList = em.createQuery("select m.username, m.age from Member m")
+//                    .getResultList();
+//
+//            Object[] result = resultList.get(0);
+//            System.out.println("username = " + result[0]);
+//            System.out.println("age = " + result[1]);
+
+            // 3. new 명령어로 조회
+            List<MemberDTO> result = em.createQuery("select new jpql.MemberDTO(m.username, m.age) from Member m", MemberDTO.class)
                     .getResultList();
+
+            MemberDTO memberDTO = result.get(0);
+            System.out.println("memberDTO = " + memberDTO.getUsername());
+            System.out.println("memberDTO = " + memberDTO.getAge());
 
             tx.commit();
         } catch (Exception e) {
