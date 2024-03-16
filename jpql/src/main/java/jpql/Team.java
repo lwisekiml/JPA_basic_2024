@@ -13,7 +13,7 @@ public class Team {
 
     @Id @GeneratedValue
     private Long id;
-    private String username;
+    private String name;
     private int age;
 
     @OneToMany(mappedBy = "team")
@@ -27,12 +27,12 @@ public class Team {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getAge() {
@@ -41,5 +41,13 @@ public class Team {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public List<Member> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
     }
 }
