@@ -42,6 +42,8 @@ public class JpaMain {
             // 두 번째 방법
             String query = "select m.username, 'HELLO', TRUE from Member m " +
                     "where m.type = :userType"; // m1_0.type=?
+            // "where m.username is not null";
+            // "where m.age between 0 and 10";
             List<Object[]> result = em.createQuery(query)
                     .setParameter("userType", MemberType.ADMIN)
                     .getResultList();
