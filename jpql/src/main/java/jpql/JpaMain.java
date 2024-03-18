@@ -29,14 +29,13 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            // 'a' || 'b' 도 가능
-//            String query = "select concat('a', 'b') from Member m"; // s = ab
-            String query = "select substring(m.username, 2, 3) from Member m"; // s = 리자1 , s = 리자2
-            List<String> result = em.createQuery(query, String.class)
+//            String query = "select locate('de', 'abcdegf') from Member m"; // s = 4
+            String query = "select size(t.members) from Team t";
+            List<Integer> result = em.createQuery(query, Integer.class)
                     .getResultList();
 
-            for (String s : result) {
-                System.out.println("s = " + s);
+            for (Integer s : result) {
+                System.out.println("s = " + s); // s = 0 이 나와야 하는데 안나온다.
             }
 
             tx.commit();
