@@ -33,25 +33,18 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            // 첫 번째 방법
-//            String query = "select m.username, 'HELLO', TRUE from Member m " +
-//                            "where m.type = jpql.MemberType.ADMIN"; //  m1_0.type='ADMIN'
-//            List<Object[]> result = em.createQuery(query)
-//                    .getResultList();
-
-            // 두 번째 방법
-            String query = "select m.username, 'HELLO', TRUE from Member m " +
-                    "where m.type = :userType"; // m1_0.type=?
-            // "where m.username is not null";
-            // "where m.age between 0 and 10";
-            List<Object[]> result = em.createQuery(query)
-                    .setParameter("userType", MemberType.ADMIN)
+            String query =
+                    "select " +
+                            "case when m.age <= 10 then '학생요금'" +
+                            "     when m.age >= 60 then '경로요금'" +
+                            "     else '일반요금' " +
+                            " end " +
+                    "from Member m";
+            List<String> result = em.createQuery(query, String.class)
                     .getResultList();
 
-            for (Object[] objects : result) {
-                System.out.println("objects = " + objects[0]);
-                System.out.println("objects = " + objects[1]);
-                System.out.println("objects = " + objects[2]);
+            for (String s : result) {
+                System.out.println("s = " + s); // 학생요금
             }
 
             tx.commit();
