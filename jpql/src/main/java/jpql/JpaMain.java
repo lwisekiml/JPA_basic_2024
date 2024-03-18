@@ -17,28 +17,26 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Team team = new Team();
-            team.setName("teamA");
-            em.persist(team);
 
-            Member member = new Member();
-            member.setUsername("관리자");
-            member.setAge(10);
-            member.setType(MemberType.ADMIN);
+            Member member1 = new Member();
+            member1.setUsername("관리자1");
+            em.persist(member1);
 
-            member.setTeam(team);
-
-            em.persist(member);
+            Member member2 = new Member();
+            member2.setUsername("관리자2");
+            em.persist(member2);
 
             em.flush();
             em.clear();
 
-            String query = "select nullif(m.username, '관리자') from Member m";
+            // 'a' || 'b' 도 가능
+//            String query = "select concat('a', 'b') from Member m"; // s = ab
+            String query = "select substring(m.username, 2, 3) from Member m"; // s = 리자1 , s = 리자2
             List<String> result = em.createQuery(query, String.class)
                     .getResultList();
 
             for (String s : result) {
-                System.out.println("s = " + s); // null
+                System.out.println("s = " + s);
             }
 
             tx.commit();
