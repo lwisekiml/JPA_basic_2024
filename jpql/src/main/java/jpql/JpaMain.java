@@ -45,13 +45,24 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select m from Member m join fetch m.team";
-
-            List<Member> result = em.createQuery(query, Member.class)
+            /*
+                하이버네이트6 변경 사항
+                DISTINCT가 추가로 애플리케이션에서 중복 제거시도
+                -> 하이버네이트6 부터는 DISTINCT 명령어를 사용하지 않아도 애플리케이션에서 중복 제거가 자동으로 적용됩니다.
+                하이버네이트6 전에는 select distinct를 사용해야 중복이 제거 되었다.
+            */
+            // 하이버네이트6 전에는 result.size() 값은 3이 나온다. 조인하면서 뻥튀기가 되서 그렇다.
+            String query = "select t from Team t join fetch t.members";
+            List<Team> result = em.createQuery(query, Team.class)
                     .getResultList();
 
-            for (Member member : result) {
-                System.out.println("member = " + member.getUsername() + ", " + member.getTeam().getName());
+            System.out.println("result.size() = " + result.size());
+
+            for (Team team : result) {
+                System.out.println("member = " + team.getName() + "| members = " + team.getMembers().size());
+                for (Member member : team.getMembers()) {
+                    System.out.println("-> member = " + member);
+                }
             }
 
             tx.commit();
