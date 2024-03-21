@@ -44,22 +44,16 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            // 한번에 팀A와 팀B와 연관된 멩버를 다 가져온다.
-            String query = "select t from Team t";
+            // 주석 코드와 현재 코드의 결과가 같다.
+//            String query = "select m from Member m where m = :member";
+            String query = "select m from Member m where m.id = :memberId";
 
-            List<Team> result = em.createQuery(query, Team.class)
-                    .setFirstResult(0)
-                    .setMaxResults(2)
-                    .getResultList();
+            Member findMember = em.createQuery(query, Member.class)
+//                    .setParameter("member", member1)
+                    .setParameter("memberId", member1.getId())
+                    .getSingleResult();
 
-            System.out.println("result.size() = " + result.size());
-
-            for (Team team : result) {
-                System.out.println("member = " + team.getName() + "| members = " + team.getMembers().size());
-                for (Member member : team.getMembers()) {
-                    System.out.println("-> member = " + member);
-                }
-            }
+            System.out.println("findMember = " + findMember);
 
             tx.commit();
         } catch (Exception e) {
