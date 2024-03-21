@@ -45,8 +45,8 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            // 아래의 경우 select 절에서 team만 가져온다. 이 때도 6이전 에는 데이터 뻥튀기가 된다.
-            String query = "select t from Team t join fetch t.members"; // 일반 조인 실행시 연관된 엔티티를 함께 조회X
+            // 아래 처럼 페치 조인 대상에 별칭을 가급적이면 사용X (m / m.age)
+            String query = "select t from Team t join fetch t.members m where m.age > 10"; // 일반 조인 실행시 연관된 엔티티를 함께 조회X
             List<Team> result = em.createQuery(query, Team.class)
                     .getResultList();
 
