@@ -45,14 +45,8 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            /*
-                하이버네이트6 변경 사항
-                DISTINCT가 추가로 애플리케이션에서 중복 제거시도
-                -> 하이버네이트6 부터는 DISTINCT 명령어를 사용하지 않아도 애플리케이션에서 중복 제거가 자동으로 적용됩니다.
-                하이버네이트6 전에는 select distinct를 사용해야 중복이 제거 되었다.
-            */
-            // 하이버네이트6 전에는 result.size() 값은 3이 나온다. 조인하면서 뻥튀기가 되서 그렇다.
-            String query = "select t from Team t join fetch t.members";
+            // 아래의 경우 select 절에서 team만 가져온다. 이 때도 6이전 에는 데이터 뻥튀기가 된다.
+            String query = "select t from Team t join fetch t.members"; // 일반 조인 실행시 연관된 엔티티를 함께 조회X
             List<Team> result = em.createQuery(query, Team.class)
                     .getResultList();
 
