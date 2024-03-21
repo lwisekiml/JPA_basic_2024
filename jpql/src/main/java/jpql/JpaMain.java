@@ -45,9 +45,28 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            // 아래 처럼 페치 조인 대상에 별칭을 가급적이면 사용X (m / m.age)
-            String query = "select t from Team t join fetch t.members m where m.age > 10"; // 일반 조인 실행시 연관된 엔티티를 함께 조회X
+            String query = "select t from Team t join fetch t.members m";
+            /*
+            WARN: HHH90003004: firstResult/maxResults specified with collection fetch; applying in memory
+            아래와 같이 쿼리에 페이징 관련 쿼리가 없다. 그래서 DB에서 이 팀에 대한 데이터를 다 끌고 온 것이다.
+            select
+                t1_0.id,
+                t1_0.age,
+                m1_0.TEAM_ID,
+                m1_0.id,
+                m1_0.age,
+                m1_0.type,
+                m1_0.username,
+                t1_0.name
+            from
+                Team t1_0
+            join
+                Member m1_0
+                    on t1_0.id=m1_0.TEAM_ID
+            */
             List<Team> result = em.createQuery(query, Team.class)
+                    .setFirstResult(0)
+                    .setMaxResults(1)
                     .getResultList();
 
             System.out.println("result.size() = " + result.size());
