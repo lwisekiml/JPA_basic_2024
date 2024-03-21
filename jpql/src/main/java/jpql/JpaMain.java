@@ -45,15 +45,17 @@ public class JpaMain {
             em.clear();
 
             // 주석 코드와 현재 코드의 결과가 같다.
-//            String query = "select m from Member m where m = :member";
-            String query = "select m from Member m where m.id = :memberId";
+//            String query = "select m from Member m where m.team = :team";
+            String query = "select m from Member m where m.team.id = :teamId";
 
-            Member findMember = em.createQuery(query, Member.class)
-//                    .setParameter("member", member1)
-                    .setParameter("memberId", member1.getId())
-                    .getSingleResult();
+            List<Member> members = em.createQuery(query, Member.class)
+//                    .setParameter("team", teamA)
+                    .setParameter("teamId", teamA.getId())
+                    .getResultList();
 
-            System.out.println("findMember = " + findMember);
+            for (Member member : members) {
+                System.out.println("member = " + member);
+            }
 
             tx.commit();
         } catch (Exception e) {
