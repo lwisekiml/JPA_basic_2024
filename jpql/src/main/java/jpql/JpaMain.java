@@ -41,19 +41,15 @@ public class JpaMain {
             member3.setUsername("회원3");
             member3.setTeam(teamB);
             em.persist(member3);
+
             em.flush();
             em.clear();
 
-            // 주석 코드와 현재 코드의 결과가 같다.
-//            String query = "select m from Member m where m.team = :team";
-            String query = "select m from Member m where m.team.id = :teamId";
-
-            List<Member> members = em.createQuery(query, Member.class)
-//                    .setParameter("team", teamA)
-                    .setParameter("teamId", teamA.getId())
+            List<Member> resultList = em.createNamedQuery("Member.findByUsername", Member.class)
+                    .setParameter("username", "회원1")
                     .getResultList();
 
-            for (Member member : members) {
+            for (Member member : resultList) {
                 System.out.println("member = " + member);
             }
 
